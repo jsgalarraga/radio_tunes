@@ -12,6 +12,10 @@ RadioStation _$RadioStationFromJson(Map<String, dynamic> json) => RadioStation(
       json['url'] as String,
       json['url_resolved'] as String,
       json['favicon'] as String,
+      json['countrycode'] as String,
+      json['lastcheckok'] as int,
+      json['votes'] as int,
+      json['clickcount'] as int,
     );
 
 Map<String, dynamic> _$RadioStationToJson(RadioStation instance) =>
@@ -21,4 +25,8 @@ Map<String, dynamic> _$RadioStationToJson(RadioStation instance) =>
       'url': instance.url,
       'url_resolved': instance.urlResolved,
       'favicon': instance.icon,
+      'countrycode': instance.countryCode,
+      'lastcheckok': instance.available,
+      'votes': instance.votes,
+      'clickcount': instance.popularity,
     };

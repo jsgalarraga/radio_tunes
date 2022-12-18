@@ -14,6 +14,13 @@ class RadioStation {
   final String urlResolved;
   @JsonKey(name: 'favicon')
   final String icon;
+  @JsonKey(name: 'countrycode')
+  final String countryCode;
+  @JsonKey(name: 'lastcheckok')
+  final int available;
+  final int votes;
+  @JsonKey(name: 'clickcount')
+  final int popularity;
 
   const RadioStation(
     this.id,
@@ -21,6 +28,10 @@ class RadioStation {
     this.url,
     this.urlResolved,
     this.icon,
+    this.countryCode,
+    this.available,
+    this.votes,
+    this.popularity,
   );
 
   factory RadioStation.fromJson(Map<String, dynamic> json) => _$RadioStationFromJson(json);
