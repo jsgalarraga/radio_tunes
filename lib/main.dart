@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_color_generator/material_color_generator.dart';
 import 'package:radio_app/features/radios_list/view/radios_list_page.dart';
+import 'package:radio_app/utils/colors.dart';
 
 void main() {
   runApp(
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Radio App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: generateMaterialColor(color: AppColors.backgroundColor),
       ),
       home: const RadiosListPage(),
     );
