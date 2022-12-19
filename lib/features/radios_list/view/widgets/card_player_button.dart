@@ -24,7 +24,7 @@ class CardPlayerButton extends ConsumerWidget {
         );
       } else if (playerState is Playing) {
         return PlayerBaseButton(
-          onTap: () => ref.read(radioPlayerProvider.notifier).pausePlaying(),
+          onTap: () => ref.read(radioPlayerProvider.notifier).pause(),
           size: size,
           icon: Icons.stop,
         );

@@ -17,7 +17,7 @@ class PlayerButton extends ConsumerWidget {
       return const Center(child: CircularProgressIndicator(color: AppColors.foregroundColor));
     } else if (playerState is Playing) {
       return PlayerBaseButton(
-        onTap: () => ref.read(radioPlayerProvider.notifier).pausePlaying(),
+        onTap: () => ref.read(radioPlayerProvider.notifier).pause(),
         size: size,
         icon: Icons.stop,
       );

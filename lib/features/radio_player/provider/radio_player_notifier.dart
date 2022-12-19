@@ -44,11 +44,11 @@ class RadioPlayerNotifier extends StateNotifier<RadioPlayerBaseModel> {
     player.play();
   }
 
-  void pausePlaying() async {
+  void pause() async {
     player.pause();
   }
 
-  void stopPlaying() async {
+  void stop() async {
     player.stop();
   }
 }
