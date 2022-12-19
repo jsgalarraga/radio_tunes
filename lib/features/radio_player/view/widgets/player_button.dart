@@ -16,38 +16,18 @@ class PlayerButton extends ConsumerWidget {
     if (playerState is Loading) {
       return const Center(child: CircularProgressIndicator(color: AppColors.foregroundColor));
     } else if (playerState is Playing) {
-      return StopButton(size: size);
+      return PlayerBaseButton(
+        onTap: () => ref.read(radioPlayerProvider.notifier).pausePlaying(),
+        size: size,
+        icon: Icons.stop,
+      );
     } else {
-      return PlayButton(size: size);
+      return PlayerBaseButton(
+        onTap: () => ref.read(radioPlayerProvider.notifier).play(),
+        size: size,
+        icon: Icons.play_arrow,
+      );
     }
-  }
-}
-
-class PlayButton extends ConsumerWidget {
-  final double size;
-  const PlayButton({super.key, required this.size});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return PlayerBaseButton(
-      onTap: () => ref.read(radioPlayerProvider.notifier).play(),
-      size: size,
-      icon: Icons.play_arrow,
-    );
-  }
-}
-
-class StopButton extends ConsumerWidget {
-  final double size;
-  const StopButton({super.key, required this.size});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return PlayerBaseButton(
-      onTap: () => ref.read(radioPlayerProvider.notifier).pausePlaying(),
-      size: size,
-      icon: Icons.stop,
-    );
   }
 }
 

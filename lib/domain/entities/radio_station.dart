@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -5,7 +6,7 @@ part 'radio_station.g.dart';
 
 @immutable
 @JsonSerializable()
-class RadioStation {
+class RadioStation extends Equatable {
   @JsonKey(name: 'stationuuid')
   final String id;
   final String name;
@@ -43,4 +44,7 @@ class RadioStation {
     if (tagsList.length < 3) return tagsList.join(' · ');
     return tagsList.sublist(0, 2).join(' · ');
   }
+
+  @override
+  List<Object?> get props => [id];
 }

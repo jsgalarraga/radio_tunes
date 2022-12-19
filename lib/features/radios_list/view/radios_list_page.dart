@@ -86,7 +86,10 @@ class RadiosListElement extends ConsumerWidget {
           highlightColor: AppColors.splashColor,
           splashColor: AppColors.splashColor,
           onTap: () {
-            ref.read(radioPlayerProvider.notifier).loadRadioAndPlay(radio);
+            final state = ref.read(radioPlayerProvider);
+            if (state.radio != radio) {
+              ref.read(radioPlayerProvider.notifier).loadRadioAndPlay(radio);
+            }
             Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => RadioPlayerPage(radio)),
             );

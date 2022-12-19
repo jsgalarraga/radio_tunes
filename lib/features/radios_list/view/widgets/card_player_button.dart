@@ -14,7 +14,7 @@ class CardPlayerButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final playerState = ref.watch(radioPlayerProvider);
-    if (radio.id == playerState.radio?.id) {
+    if (radio == playerState.radio) {
       if (playerState is Loading) {
         return Container(
           margin: const EdgeInsets.all(6),
@@ -23,12 +23,24 @@ class CardPlayerButton extends ConsumerWidget {
           child: const CircularProgressIndicator(color: AppColors.foregroundColor, strokeWidth: 2),
         );
       } else if (playerState is Playing) {
-        return StopButton(size: size);
+        return PlayerBaseButton(
+          onTap: () => ref.read(radioPlayerProvider.notifier).pausePlaying(),
+          size: size,
+          icon: Icons.stop,
+        );
       } else {
-        return PlayButton(size: size);
+        return PlayerBaseButton(
+          onTap: () => ref.read(radioPlayerProvider.notifier).play(),
+          size: size,
+          icon: Icons.play_arrow,
+        );
       }
     } else {
-      return PlayButton(size: size);
+      return PlayerBaseButton(
+        onTap: () => ref.read(radioPlayerProvider.notifier).loadRadioAndPlay(radio),
+        size: size,
+        icon: Icons.play_arrow,
+      );
     }
   }
 }
