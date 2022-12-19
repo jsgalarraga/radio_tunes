@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:radio_app/domain/entities/radio_station.dart';
-import 'package:radio_app/features/radios_list/view/widgets/play_button.dart';
+import 'package:radio_app/features/radio_player/view/widgets/player_button.dart';
 import 'package:radio_app/features/radios_list/view/widgets/radio_icon.dart';
 import 'package:radio_app/utils/colors.dart';
 
 class RadioPlayerPage extends StatelessWidget {
   final RadioStation radio;
-  const RadioPlayerPage(this.radio, {Key? key}) : super(key: key);
+  const RadioPlayerPage(this.radio, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class RadioPlayerPage extends StatelessWidget {
           children: [
             const RadioGraphics(),
             RadioData(radio),
-            const PlayerControls(),
+            PlayerControls(radio),
             const Gap(32),
           ],
         ),
@@ -88,13 +88,14 @@ class RadioData extends StatelessWidget {
 }
 
 class PlayerControls extends StatelessWidget {
-  const PlayerControls({Key? key}) : super(key: key);
+  final RadioStation radio;
+  const PlayerControls(this.radio, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      child: const PlayButton(size: 32),
+      child: PlayerButton(radio),
     );
   }
 }

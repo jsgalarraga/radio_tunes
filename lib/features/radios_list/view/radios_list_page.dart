@@ -8,7 +8,8 @@ import 'package:radio_app/features/radio_player/view/radio_player_page.dart';
 import 'package:radio_app/features/radios_list/model/radios_list_view_model.dart';
 import 'package:radio_app/features/radios_list/view/error_body.dart';
 import 'package:radio_app/features/radios_list/view/loading_body.dart';
-import 'package:radio_app/features/radios_list/view/widgets/play_button.dart';
+import 'package:radio_app/features/radio_player/view/widgets/player_button.dart';
+import 'package:radio_app/features/radios_list/view/widgets/card_player_button.dart';
 import 'package:radio_app/features/radios_list/view/widgets/radio_icon.dart';
 import 'package:radio_app/utils/colors.dart';
 
@@ -68,12 +69,12 @@ class RadiosListFullBody extends StatelessWidget {
   }
 }
 
-class RadiosListElement extends StatelessWidget {
+class RadiosListElement extends ConsumerWidget {
   final RadioStation radio;
   const RadiosListElement(this.radio, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final borderRadius = BorderRadius.circular(8);
     return Padding(
       padding: const EdgeInsets.only(top: 16),
@@ -85,6 +86,7 @@ class RadiosListElement extends StatelessWidget {
           highlightColor: AppColors.splashColor,
           splashColor: AppColors.splashColor,
           onTap: () {
+            ref.read(radioPlayerProvider.notifier).loadRadioAndPlay(radio);
             Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => RadioPlayerPage(radio)),
             );
@@ -116,7 +118,7 @@ class RadiosListElement extends StatelessWidget {
                   ),
                 ),
                 const Gap(8),
-                const PlayButton(),
+                CardPlayerButton(radio),
               ],
             ),
           ),
