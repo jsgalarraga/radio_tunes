@@ -14,6 +14,7 @@ class RadioStation {
   final String urlResolved;
   @JsonKey(name: 'favicon')
   final String icon;
+  final String tags;
   @JsonKey(name: 'countrycode')
   final String countryCode;
   @JsonKey(name: 'lastcheckok')
@@ -28,6 +29,7 @@ class RadioStation {
     this.url,
     this.urlResolved,
     this.icon,
+    this.tags,
     this.countryCode,
     this.available,
     this.votes,
@@ -35,4 +37,10 @@ class RadioStation {
   );
 
   factory RadioStation.fromJson(Map<String, dynamic> json) => _$RadioStationFromJson(json);
+
+  String get formattedTags {
+    final tagsList = tags.split(',');
+    if (tagsList.length < 3) return tagsList.join(' · ');
+    return tagsList.sublist(0, 2).join(' · ');
+  }
 }
