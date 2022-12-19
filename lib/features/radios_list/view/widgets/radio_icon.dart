@@ -9,17 +9,20 @@ class RadioIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      clipBehavior: Clip.hardEdge,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
+    return Hero(
+      tag: '${radio.id} - icon',
+      child: Container(
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        height: 40,
+        width: 40,
+        child: radio.icon.isEmpty
+            ? const Icon(Icons.radio, color: AppColors.backgroundColor)
+            : CachedNetworkImage(imageUrl: radio.icon),
       ),
-      height: 40,
-      width: 40,
-      child: radio.icon.isEmpty
-          ? const Icon(Icons.radio, color: AppColors.backgroundColor)
-          : CachedNetworkImage(imageUrl: radio.icon),
     );
   }
 }

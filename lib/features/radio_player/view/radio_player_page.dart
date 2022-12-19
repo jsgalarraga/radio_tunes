@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:radio_app/domain/entities/radio_station.dart';
 import 'package:radio_app/features/radio_player/view/widgets/player_button.dart';
 import 'package:radio_app/features/radios_list/view/widgets/radio_icon.dart';
+import 'package:radio_app/features/radios_list/view/widgets/radio_title.dart';
 import 'package:radio_app/utils/colors.dart';
 
 class RadioPlayerPage extends StatelessWidget {
@@ -23,7 +24,7 @@ class RadioPlayerPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const RadioGraphics(),
+            RadioGraphics(radio),
             RadioData(radio),
             PlayerControls(radio),
             const Gap(32),
@@ -35,17 +36,21 @@ class RadioPlayerPage extends StatelessWidget {
 }
 
 class RadioGraphics extends StatelessWidget {
-  const RadioGraphics({Key? key}) : super(key: key);
+  final RadioStation radio;
+  const RadioGraphics(this.radio, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final pageSize = MediaQuery.of(context).size;
-    return Container(
-      height: pageSize.height * .5,
-      width: pageSize.width,
-      decoration: BoxDecoration(
-        color: AppColors.secondaryColor,
-        borderRadius: BorderRadius.circular(8),
+    return Hero(
+      tag: '${radio.id} - card',
+      child: Container(
+        height: pageSize.height * .5,
+        width: pageSize.width,
+        decoration: BoxDecoration(
+          color: AppColors.secondaryColor,
+          borderRadius: BorderRadius.circular(8),
+        ),
       ),
     );
   }
@@ -66,18 +71,10 @@ class RadioData extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                radio.name,
-                style: const TextStyle(color: Colors.white, fontSize: 20),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
+              RadioTitle(radio),
               if (radio.formattedTags.isNotEmpty) ...[
                 const Gap(4),
-                Text(
-                  radio.formattedTags,
-                  style: TextStyle(color: Colors.white.withOpacity(.4), fontSize: 14),
-                ),
+                RadioTags(radio),
               ],
             ],
           ),
@@ -95,7 +92,10 @@ class PlayerControls extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      child: PlayerButton(radio),
+      child: Hero(
+        tag: '${radio.id} - player controls',
+        child: PlayerButton(radio),
+      ),
     );
   }
 }

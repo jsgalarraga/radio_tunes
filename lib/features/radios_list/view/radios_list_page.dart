@@ -8,10 +8,11 @@ import 'package:radio_app/features/radio_player/view/radio_player_page.dart';
 import 'package:radio_app/features/radios_list/model/radios_list_view_model.dart';
 import 'package:radio_app/features/radios_list/view/error_body.dart';
 import 'package:radio_app/features/radios_list/view/loading_body.dart';
-import 'package:radio_app/features/radio_player/view/widgets/player_button.dart';
 import 'package:radio_app/features/radios_list/view/widgets/card_player_button.dart';
 import 'package:radio_app/features/radios_list/view/widgets/radio_icon.dart';
+import 'package:radio_app/features/radios_list/view/widgets/radio_title.dart';
 import 'package:radio_app/utils/colors.dart';
+import 'package:radio_app/utils/custom_page_route.dart';
 
 class RadiosListPage extends ConsumerStatefulWidget {
   const RadiosListPage({super.key});
@@ -78,54 +79,65 @@ class RadiosListElement extends ConsumerWidget {
     final borderRadius = BorderRadius.circular(8);
     return Padding(
       padding: const EdgeInsets.only(top: 16),
-      child: Material(
-        color: AppColors.secondaryColor,
-        borderRadius: borderRadius,
-        child: InkWell(
-          borderRadius: borderRadius,
-          highlightColor: AppColors.splashColor,
-          splashColor: AppColors.splashColor,
-          onTap: () {
-            final state = ref.read(radioPlayerProvider);
-            if (state.radio != radio) {
-              ref.read(radioPlayerProvider.notifier).loadRadioAndPlay(radio);
-            }
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => RadioPlayerPage(radio)),
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      RadioIcon(radio),
-                      const Gap(8),
-                      Text(
-                        radio.name,
-                        style: const TextStyle(color: Colors.white, fontSize: 20),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const Gap(8),
-                      Text(
-                        radio.formattedTags,
-                        style: TextStyle(color: Colors.white.withOpacity(.4), fontSize: 14),
-                      ),
-                    ],
-                  ),
-                ),
-                const Gap(8),
-                CardPlayerButton(radio),
-              ],
+      child: Stack(
+        alignment: AlignmentDirectional.center,
+        children: [
+          Hero(
+            tag: '${radio.id} - card',
+            child: Container(
+              height: 100,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: AppColors.secondaryColor,
+                borderRadius: borderRadius,
+              ),
             ),
           ),
-        ),
+          Material(
+            color: AppColors.secondaryColor,
+            borderRadius: borderRadius,
+            child: InkWell(
+              borderRadius: borderRadius,
+              highlightColor: AppColors.splashColor,
+              splashColor: AppColors.splashColor,
+              onTap: () {
+                final state = ref.read(radioPlayerProvider);
+                if (state.radio != radio) {
+                  ref.read(radioPlayerProvider.notifier).loadRadioAndPlay(radio);
+                }
+                Navigator.of(context).push(
+                  CustomPageRoute(RadioPlayerPage(radio)),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RadioIcon(radio),
+                          const Gap(8),
+                          RadioTitle(radio),
+                          const Gap(8),
+                          RadioTags(radio),
+                        ],
+                      ),
+                    ),
+                    const Gap(8),
+                    Hero(
+                      tag: '${radio.id} - player controls',
+                      child: CardPlayerButton(radio),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
