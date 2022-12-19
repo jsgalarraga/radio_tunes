@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:radio_app/domain/entities/radio_station.dart';
 import 'package:radio_app/features/radio_player/view/widgets/player_button.dart';
+import 'package:radio_app/features/radio_player/view/widgets/player_graphics.dart';
 import 'package:radio_app/features/radios_list/view/widgets/radio_icon.dart';
 import 'package:radio_app/features/radios_list/view/widgets/radio_title.dart';
 import 'package:radio_app/utils/colors.dart';
@@ -24,32 +25,13 @@ class RadioPlayerPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            const Gap(8),
             RadioGraphics(radio),
+            const Gap(32),
             RadioData(radio),
             PlayerControls(radio),
-            const Gap(32),
+            const Gap(8),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class RadioGraphics extends StatelessWidget {
-  final RadioStation radio;
-  const RadioGraphics(this.radio, {Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final pageSize = MediaQuery.of(context).size;
-    return Hero(
-      tag: '${radio.id} - card',
-      child: Container(
-        height: pageSize.height * .5,
-        width: pageSize.width,
-        decoration: BoxDecoration(
-          color: AppColors.secondaryColor,
-          borderRadius: BorderRadius.circular(8),
         ),
       ),
     );
