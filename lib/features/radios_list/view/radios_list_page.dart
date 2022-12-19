@@ -6,6 +6,8 @@ import 'package:gap/gap.dart';
 import 'package:radio_app/domain/entities/radio_station.dart';
 import 'package:radio_app/domain/provider/providers.dart';
 import 'package:radio_app/features/radios_list/model/radios_list_view_model.dart';
+import 'package:radio_app/features/radios_list/view/error_body.dart';
+import 'package:radio_app/features/radios_list/view/loading_body.dart';
 import 'package:radio_app/utils/colors.dart';
 
 class RadiosListPage extends ConsumerStatefulWidget {
@@ -27,31 +29,23 @@ class _RadiosListPageState extends ConsumerState<RadiosListPage> {
   @override
   Widget build(BuildContext context) {
     final radiosListViewModel = ref.watch(radiosListProvider);
+    Widget body;
     if (radiosListViewModel is Loading) {
-      return const RadiosListLoadingBody();
+      body = const RadiosListLoadingBody();
     } else if (radiosListViewModel is RadiosListViewModel) {
-      return RadiosListFullBody(radiosListViewModel);
+      body = RadiosListFullBody(radiosListViewModel);
     } else {
-      return const RadiosListErrorBody();
+      body = const RadiosListErrorBody();
     }
-  }
-}
 
-class RadiosListLoadingBody extends StatelessWidget {
-  const RadiosListLoadingBody({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: CircularProgressIndicator()));
-  }
-}
-
-class RadiosListErrorBody extends StatelessWidget {
-  const RadiosListErrorBody({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+        title: const Text('RadioTunes'),
+      ),
+      backgroundColor: AppColors.backgroundColor,
+      body: body,
+    );
   }
 }
 
@@ -62,18 +56,11 @@ class RadiosListFullBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final radiosList = viewModel.radiosList;
-    return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle.light,
-        title: const Text('RadioTunes'),
-      ),
-      backgroundColor: AppColors.backgroundColor,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: ListView.builder(
-          itemBuilder: (context, index) => RadiosListElement(radiosList[index]),
-          itemCount: radiosList.length,
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: ListView.builder(
+        itemBuilder: (context, index) => RadiosListElement(radiosList[index]),
+        itemCount: radiosList.length,
       ),
     );
   }

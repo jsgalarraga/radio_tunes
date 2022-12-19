@@ -6,11 +6,20 @@ class RadiosListNotifier extends StateNotifier<RadiosListBaseModel> {
   RadiosListNotifier() : super(Loading());
 
   void fetch() async {
-    final radiosList = await HttpRadiosRepository().getAllRadioStations();
+    try {
+      final radiosList = await HttpRadiosRepository().getAllRadioStations();
 
-    radiosList.removeWhere((e) => (e.countryCode != 'ES') || (e.available != 1));
-    radiosList.sort((a, b) => b.popularity.compareTo(a.popularity));
+      radiosList.removeWhere((e) => (e.countryCode != 'ES') || (e.available != 1));
+      radiosList.sort((a, b) => b.popularity.compareTo(a.popularity));
 
-    state = RadiosListViewModel(radiosList);
+      state = RadiosListViewModel(radiosList);
+    } catch (_) {
+      state = Error();
+    }
+  }
+
+  void resetAndFetch() {
+    state = Loading();
+    fetch();
   }
 }
