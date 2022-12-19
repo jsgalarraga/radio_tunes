@@ -4,9 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:radio_app/domain/entities/radio_station.dart';
 import 'package:radio_app/domain/provider/providers.dart';
+import 'package:radio_app/features/radio_player/view/radio_player_page.dart';
 import 'package:radio_app/features/radios_list/model/radios_list_view_model.dart';
 import 'package:radio_app/features/radios_list/view/error_body.dart';
 import 'package:radio_app/features/radios_list/view/loading_body.dart';
+import 'package:radio_app/features/radios_list/view/widgets/play_button.dart';
 import 'package:radio_app/features/radios_list/view/widgets/radio_icon.dart';
 import 'package:radio_app/utils/colors.dart';
 
@@ -82,41 +84,39 @@ class RadiosListElement extends StatelessWidget {
           borderRadius: borderRadius,
           highlightColor: AppColors.splashColor,
           splashColor: AppColors.splashColor,
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => RadioPlayerPage(radio)),
+            );
+          },
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    RadioIcon(radio),
-                    const Gap(8),
-                    Text(
-                      radio.name,
-                      style: const TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                    const Gap(8),
-                    Text(
-                      radio.formattedTags,
-                      style: TextStyle(color: Colors.white.withOpacity(.4), fontSize: 14),
-                    ),
-                  ],
-                ),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.foregroundColor,
-                  ),
-                  child: const Icon(
-                    Icons.play_arrow,
-                    size: 20,
-                    color: AppColors.backgroundColor,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RadioIcon(radio),
+                      const Gap(8),
+                      Text(
+                        radio.name,
+                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const Gap(8),
+                      Text(
+                        radio.formattedTags,
+                        style: TextStyle(color: Colors.white.withOpacity(.4), fontSize: 14),
+                      ),
+                    ],
                   ),
                 ),
+                const Gap(8),
+                const PlayButton(),
               ],
             ),
           ),
