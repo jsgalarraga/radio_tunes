@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +7,7 @@ import 'package:radio_app/domain/provider/providers.dart';
 import 'package:radio_app/features/radios_list/model/radios_list_view_model.dart';
 import 'package:radio_app/features/radios_list/view/error_body.dart';
 import 'package:radio_app/features/radios_list/view/loading_body.dart';
+import 'package:radio_app/features/radios_list/view/widgets/radio_icon.dart';
 import 'package:radio_app/utils/colors.dart';
 
 class RadiosListPage extends ConsumerStatefulWidget {
@@ -122,27 +122,6 @@ class RadiosListElement extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class RadioIcon extends StatelessWidget {
-  final RadioStation radio;
-  const RadioIcon(this.radio, {Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      clipBehavior: Clip.hardEdge,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      height: 40,
-      width: 40,
-      child: radio.icon.isEmpty
-          ? const Icon(Icons.radio, color: AppColors.backgroundColor)
-          : CachedNetworkImage(imageUrl: radio.icon),
     );
   }
 }
