@@ -13,6 +13,7 @@ import 'package:radio_app/features/radios_list/view/widgets/circular_knob.dart';
 import 'package:radio_app/features/radios_list/view/widgets/radio_dial.dart';
 import 'package:radio_app/features/radios_list/view/widgets/radio_icon.dart';
 import 'package:radio_app/features/radios_list/view/widgets/radio_title.dart';
+import 'package:radio_app/features/radios_list/view/widgets/radios_carrousel.dart';
 import 'package:radio_app/utils/colors.dart';
 import 'package:radio_app/utils/custom_page_route.dart';
 
@@ -67,23 +68,24 @@ class _RadioTunerFullBodyState extends State<RadioTunerFullBody> {
   double knobAngle = 0;
   int tunedRadio = 0;
 
+  final radiosPageController = PageController(viewportFraction: .6);
+
   @override
   Widget build(BuildContext context) {
     final radiosList = widget.viewModel.radiosList;
     return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Gap(24),
+          RadiosCarrousel(
+            radiosList: radiosList,
+            tunedRadioIndex: tunedRadio,
+            radiosController: radiosPageController,
+          ),
           RadioDial(
             tunedRadio,
             totalRadios: radiosList.length,
           ),
-          const Gap(24),
-          Text(
-            tunedRadio.toString(),
-            style: const TextStyle(color: AppColors.foregroundColor),
-          ),
-          const Gap(24),
           CircularKnob(
             currentAngle: knobAngle,
             onUpdate: (double value) {
@@ -93,6 +95,11 @@ class _RadioTunerFullBodyState extends State<RadioTunerFullBody> {
                   knobAngle = value;
                   tunedRadio = newTunedRadio;
                 });
+                radiosPageController.animateToPage(
+                  newTunedRadio,
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeInOut,
+                );
               }
             },
           ),
