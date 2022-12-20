@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_color_generator/material_color_generator.dart';
 import 'package:radio_app/domain/provider/providers.dart';
-import 'package:radio_app/features/radios_list/view/radios_list_page.dart';
+import 'package:radio_app/features/radios_list/view/radio_tuner_page.dart';
 import 'package:radio_app/utils/colors.dart';
 
 void main() {
@@ -38,7 +38,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       theme: ThemeData(
         primarySwatch: generateMaterialColor(color: AppColors.backgroundColor),
       ),
-      home: const RadiosListPage(),
+      home: const RadioTunerPage(),
     );
   }
 }
