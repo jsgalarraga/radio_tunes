@@ -10,6 +10,7 @@ import 'package:radio_app/features/radios_list/view/error_body.dart';
 import 'package:radio_app/features/radios_list/view/loading_body.dart';
 import 'package:radio_app/features/radios_list/view/widgets/card_player_button.dart';
 import 'package:radio_app/features/radios_list/view/widgets/circular_knob.dart';
+import 'package:radio_app/features/radios_list/view/widgets/radio_dial.dart';
 import 'package:radio_app/features/radios_list/view/widgets/radio_icon.dart';
 import 'package:radio_app/features/radios_list/view/widgets/radio_title.dart';
 import 'package:radio_app/utils/colors.dart';
@@ -63,7 +64,8 @@ class RadioTunerFullBody extends StatefulWidget {
 }
 
 class _RadioTunerFullBodyState extends State<RadioTunerFullBody> {
-  double tunedRadio = 0;
+  double knobAngle = 0;
+  int tunedRadio = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -71,21 +73,36 @@ class _RadioTunerFullBodyState extends State<RadioTunerFullBody> {
     return Center(
       child: Column(
         children: [
-          Gap(24),
+          const Gap(24),
+          RadioDial(
+            tunedRadio,
+            totalRadios: radiosList.length,
+          ),
+          const Gap(24),
           Text(
             tunedRadio.toString(),
             style: const TextStyle(color: AppColors.foregroundColor),
           ),
-          Gap(24),
+          const Gap(24),
           CircularKnob(
-            currentAngle: tunedRadio,
+            currentAngle: knobAngle,
             onUpdate: (double value) {
-              setState(() => tunedRadio = value);
+              final newTunedRadio = value ~/ 8;
+              if (isTunedRadioAllowed(newTunedRadio, radiosList.length)) {
+                setState(() {
+                  knobAngle = value;
+                  tunedRadio = newTunedRadio;
+                });
+              }
             },
           ),
         ],
       ),
     );
+  }
+
+  bool isTunedRadioAllowed(int newTunedRadio, int radiosListCount) {
+    return (newTunedRadio >= 0) && (newTunedRadio < radiosListCount);
   }
 }
 
