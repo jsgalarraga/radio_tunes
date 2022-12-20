@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:radio_app/domain/entities/radio_station.dart';
-import 'package:radio_app/features/radio_player/model/radio_player_model.dart';
+import 'package:radio_app/features/radio_player/model/radio_player_view_model.dart';
 
 class RadioPlayerNotifier extends StateNotifier<RadioPlayerBaseModel> {
   RadioPlayerNotifier() : super(NotPlaying.empty());

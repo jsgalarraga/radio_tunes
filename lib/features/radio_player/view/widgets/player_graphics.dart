@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:radio_app/domain/entities/radio_station.dart';
 import 'package:radio_app/domain/provider/providers.dart';
-import 'package:radio_app/features/radio_player/model/radio_player_model.dart';
+import 'package:radio_app/features/radio_player/model/radio_player_view_model.dart';
 import 'package:radio_app/utils/colors.dart';
 
 const double barWidth = 6;
