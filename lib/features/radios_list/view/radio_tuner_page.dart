@@ -68,7 +68,7 @@ class _RadioTunerFullBodyState extends State<RadioTunerFullBody> {
   double knobAngle = 0;
   int tunedRadio = 0;
 
-  final radiosPageController = PageController(viewportFraction: .6);
+  final radiosPageController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -89,16 +89,20 @@ class _RadioTunerFullBodyState extends State<RadioTunerFullBody> {
           CircularKnob(
             currentAngle: knobAngle,
             onUpdate: (double value) {
-              final newTunedRadio = value ~/ 8;
+              final newTunedRadio = value ~/ 15;
               if (isTunedRadioAllowed(newTunedRadio, radiosList.length)) {
                 setState(() {
                   knobAngle = value;
                   tunedRadio = newTunedRadio;
                 });
-                radiosPageController.animateToPage(
-                  newTunedRadio,
-                  duration: const Duration(milliseconds: 200),
-                  curve: Curves.easeInOut,
+
+                final offset = newTunedRadio /
+                    radiosList.length *
+                    radiosPageController.position.maxScrollExtent;
+                radiosPageController.animateTo(
+                  offset,
+                  duration: const Duration(milliseconds: 250),
+                  curve: Curves.linear,
                 );
               }
             },

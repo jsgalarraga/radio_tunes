@@ -12,7 +12,7 @@ class RadiosListNotifier extends StateNotifier<RadiosListBaseModel> {
       radiosList.removeWhere((e) => (e.countryCode != 'ES') || (e.available != 1));
       radiosList.sort((a, b) => b.popularity.compareTo(a.popularity));
 
-      state = RadiosListViewModel(radiosList);
+      state = RadiosListViewModel(radiosList.sublist(0, 50));
     } catch (_) {
       state = Error();
     }

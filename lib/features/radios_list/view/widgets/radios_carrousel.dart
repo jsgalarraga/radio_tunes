@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
+import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:radio_app/domain/entities/radio_station.dart';
@@ -13,7 +14,7 @@ import 'package:radio_app/utils/custom_page_route.dart';
 class RadiosCarrousel extends StatelessWidget {
   final int tunedRadioIndex;
   final List<RadioStation> radiosList;
-  final PageController radiosController;
+  final ScrollController radiosController;
 
   const RadiosCarrousel({
     super.key,
@@ -26,9 +27,10 @@ class RadiosCarrousel extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 250,
-      child: PageView(
+      child: ListView(
         physics: const NeverScrollableScrollPhysics(),
         controller: radiosController,
+        scrollDirection: Axis.horizontal,
         children: radiosList.map((e) => RadioElement(e)).toList(),
       ),
     );
@@ -42,6 +44,7 @@ class RadioElement extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final borderRadius = BorderRadius.circular(8);
+    final width = MediaQuery.of(context).size.width / 2;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Stack(
@@ -51,7 +54,7 @@ class RadioElement extends ConsumerWidget {
             tag: '${radio.id} - card',
             child: Container(
               height: 100,
-              width: MediaQuery.of(context).size.width,
+              width: width,
               decoration: BoxDecoration(
                 color: AppColors.secondaryColor,
                 borderRadius: borderRadius,
@@ -74,16 +77,27 @@ class RadioElement extends ConsumerWidget {
                   CustomPageRoute(RadioPlayerPage(radio)),
                 );
               },
-              child: Padding(
+              child: Container(
                 padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      inset: true,
+                      color: Colors.black45,
+                      blurRadius: 16,
+                      offset: Offset(0, 8),
+                    ),
+                  ],
+                ),
+                width: width,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Center(child: RadioIcon(radio)),
+                    RadioIcon(radio),
                     const Gap(8),
-                    Center(child: RadioTitle(radio)),
-                    Center(child: RadioTags(radio)),
+                    RadioTitle(radio),
+                    RadioTags(radio),
                     const Gap(8),
                     Hero(
                       tag: '${radio.id} - player controls',

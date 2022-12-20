@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
 import 'package:radio_app/domain/entities/radio_station.dart';
 import 'package:radio_app/domain/provider/providers.dart';
 import 'package:radio_app/features/radio_player/model/radio_player_view_model.dart';
@@ -30,20 +29,20 @@ class RadioGraphics extends ConsumerWidget {
         ),
         child: LayoutBuilder(
           builder: (_, constraints) {
-            final barCount = 2 * constraints.maxWidth ~/ (barWidth + barGap);
+            final barCount = constraints.maxWidth ~/ (barWidth + barGap);
             return StreamBuilder(
               stream: randomNumStream(),
               builder: (_, snapshot) {
                 final state = ref.watch(radioPlayerProvider);
                 return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ...List.generate(
                       barCount,
                       (index) {
                         final data = snapshot.data?[index];
                         final height = (state is Playing) ? data : barWidth * 2;
-                        return index % 2 == 0 ? AudioBar(height) : const Gap(barGap);
+                        return AudioBar(height);
                       },
                     ),
                   ],
